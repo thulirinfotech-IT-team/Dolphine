@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backend/venv/
+backend/.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env
+
+# Build outputs
+frontend/build/
+backend/staticfiles/
+backend/media/
+
+# Database
+*.sqlite3
+*.db
+db.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+.cache/
+.eslintcache
+frontend/.cache/
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# OS
+Thumbs.db
+Desktop.ini

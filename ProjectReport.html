@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dolphin Naturals - Project Report</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      font-size: 12pt;
+      color: #1a1a2e;
+      background: #f4f6fb;
+      line-height: 1.7;
+    }
+
+    .print-btn {
+      position: fixed;
+      top: 24px;
+      right: 24px;
+      background: #1F3556;
+      color: #fff;
+      border: none;
+      padding: 12px 28px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      z-index: 999;
+      box-shadow: 0 4px 14px rgba(31,53,86,0.3);
+    }
+
+    .print-btn:hover {
+      background: #152840;
+    }
+
+    .wrapper {
+      max-width: 900px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+      overflow: hidden;
+    }
+
+    /* Cover */
+    .cover {
+      background: linear-gradient(135deg, #1F3556 0%, #2d5282 60%, #6FAE4F 100%);
+      color: #fff;
+      padding: 70px 60px 60px;
+      text-align: center;
+    }
+
+    .cover .logo-circle {
+      width: 80px;
+      height: 80px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 2.2rem;
+    }
+
+    .cover h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .cover .tagline {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.80);
+      margin-bottom: 36px;
+      font-style: italic;
+    }
+
+    .cover .meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 16px;
+      margin-top: 36px;
+    }
+
+    .cover .meta-item {
+      background: rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 14px 10px;
+    }
+
+    .cover .meta-item .label {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.65);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .cover .meta-item .value {
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    /* Content */
+    .content {
+      padding: 50px 60px;
+    }
+
+    /* Section */
+    .section {
+      margin-bottom: 44px;
+    }
+
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1F3556;
+      border-left: 4px solid #6FAE4F;
+      padding-left: 14px;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Abstract */
+    .abstract-box {
+      background: #f0f7ff;
+      border-radius: 10px;
+      padding: 24px 28px;
+      border: 1px solid #dbeafe;
+      font-size: 11.5pt;
+      color: #374151;
+      text-align: justify;
+    }
+
+    .abstract-box p + p {
+      margin-top: 12px;
+    }
+
+    .keywords {
+      margin-top: 16px;
+      font-size: 10.5pt;
+      color: #1F3556;
+    }
+
+    .keywords strong {
+      color: #1F3556;
+    }
+
+    /* Tables */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 10.5pt;
+    }
+
+    thead tr {
+      background: #1F3556;
+      color: #fff;
+    }
+
+    thead th {
+      padding: 11px 14px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    tbody tr:nth-child(even) {
+      background: #f8fafc;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: #fff;
+    }
+
+    tbody td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #e5e7eb;
+      color: #374151;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #dcfce7;
+      color: #166534;
+      font-size: 9pt;
+      font-weight: 600;
+      padding: 2px 9px;
+      border-radius: 999px;
+    }
+
+    .badge.blue {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .badge.purple {
+      background: #ede9fe;
+      color: #6d28d9;
+    }
+
+    /* Spec cards */
+    .spec-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 8px;
+    }
+
+    .spec-card {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+
+    .spec-card h4 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #1F3556;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .spec-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .spec-card ul li {
+      font-size: 10pt;
+      color: #374151;
+      padding: 4px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .spec-card ul li::before {
+      content: "▸";
+      color: #6FAE4F;
+      font-size: 10pt;
+      flex-shrink: 0;
+    }
+
+    /* Architecture diagram */
+    .arch-box {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .arch-layers {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .arch-layer {
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 10.5pt;
+      font-weight: 600;
+    }
+
+    .layer-1 { background: #dbeafe; color: #1e40af; }
+    .layer-2 { background: #dcfce7; color: #166534; }
+    .layer-3 { background: #fef9c3; color: #854d0e; }
+
+    .arch-arrow {
+      text-align: center;
+      color: #9ca3af;
+      font-size: 1.2rem;
+    }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid #e5e7eb;
+      margin: 36px 0;
+    }
+
+    /* Footer */
+    .footer {
+      background: #1F3556;
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      padding: 20px;
+      font-size: 9pt;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: #fff;
+        font-size: 11pt;
+      }
+
+      .print-btn {
+        display: none !important;
+      }
+
+      .wrapper {
+        box-shadow: none;
+        border-radius: 0;
+        margin: 0;
+        max-width: 100%;
+      }
+
+      .cover {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .section {
+        page-break-inside: avoid;
+      }
+
+      thead {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .arch-layer {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .abstract-box {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn" onclick="window.print()">⬇ Save as PDF</button>
+
+  <div class="wrapper">
+
+    <!-- Cover -->
+    <div class="cover">
+      <div class="logo-circle">🐬</div>
+      <h1>Dolphin Naturals</h1>
+      <p class="tagline">Pure Ocean Minerals &amp; Herbs for Your Wellness Journey</p>
+      <p style="color:rgba(255,255,255,0.75); font-size:0.95rem;">Project Report — E-Commerce Web Application</p>
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <div class="label">Project Type</div>
+          <div class="value">Full-Stack Web App</div>
+        </div>
+        <div class="meta-item">
+          <div class="label">Domain</div>
+          <div class="value">E-Commerce / Retail</div>
+        </div>
+        <div class="meta-item">
+          <div class="label">Year</div>
+          <div class="value">2025 – 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <!-- Abstract -->
+      <div class="section">
+        <div class="section-title">Abstract</div>
+        <div class="abstract-box">
+          <p>
+            <strong>Dolphin Naturals</strong> is a full-stack e-commerce web application developed to facilitate the online buying and selling of herbal and natural wellness products. The platform is built using <strong>React.js</strong> on the frontend and <strong>FastAPI (Python)</strong> on the backend, with <strong>MongoDB</strong> as the primary database, following a three-tier client-server architecture.
+          </p>
+          <p>
+            The system provides a complete customer-facing storefront that includes product browsing with category and search filtering, detailed product pages with multiple images, ingredients, benefits, usage instructions, a shopping cart with quantity management, a checkout flow with shipping and tax calculation, and a product review system with star ratings and verified purchase badges. Products support multiple quantity variants (e.g., 50g, 100g, 250g) with independent pricing and stock levels.
+          </p>
+          <p>
+            User authentication is implemented using a two-factor approach — credential verification followed by a <strong>One-Time Password (OTP)</strong> sent via email — with <strong>JWT (JSON Web Token)</strong> used for secure session management. Password security is handled using Bcrypt hashing.
+          </p>
+          <p>
+            A comprehensive <strong>Admin Panel</strong> allows administrators to manage the entire platform, including full CRUD operations on products, categories, promotional banners, and doctor educational videos. The application also supports direct file uploads for product images and videos, stored on the local filesystem and served as static assets.
+          </p>
+          <div class="keywords">
+            <strong>Keywords:</strong> E-Commerce, React.js, FastAPI, MongoDB, OTP Authentication, JWT, Admin Dashboard, REST API, Herbal Products, Full-Stack
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- Technologies Used -->
+      <div class="section">
+        <div class="section-title">Technologies Used</div>
+
+        <!-- Frontend -->
+        <p style="font-weight:700; color:#1F3556; margin-bottom:8px; font-size:10.5pt;">Frontend</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Technology</th>
+              <th>Version</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>React.js</td><td>18.2.0</td><td>User interface framework</td></tr>
+            <tr><td>React Router DOM</td><td>6.22.0</td><td>Client-side routing and navigation</td></tr>
+            <tr><td>Axios</td><td>1.7.0</td><td>HTTP client for API communication</td></tr>
+            <tr><td>React Scripts (CRA)</td><td>5.0.1</td><td>Build toolchain and dev server</td></tr>
+            <tr><td>CSS3</td><td>—</td><td>Custom styling, animations, responsive design</td></tr>
+            <tr><td>React Context API</td><td>Built-in</td><td>Global state management (auth)</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Backend -->
+        <p style="font-weight:700; color:#1F3556; margin:18px 0 8px; font-size:10.5pt;">Backend</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Technology</th>
+              <th>Version</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Python</td><td>3.8+</td><td>Primary programming language</td></tr>
+            <tr><td>FastAPI</td><td>Latest</td><td>REST API framework</td></tr>
+            <tr><td>Uvicorn</td><td>Latest</td><td>ASGI web server</td></tr>
+            <tr><td>PyMongo</td><td>Latest</td><td>MongoDB database driver</td></tr>
+            <tr><td>Pydantic</td><td>Latest</td><td>Data validation and serialization</td></tr>
+            <tr><td>Python-Jose</td><td>Latest</td><td>JWT token generation and verification</td></tr>
+            <tr><td>Passlib + Bcrypt</td><td>Latest</td><td>Secure password hashing</td></tr>
+            <tr><td>Python-Multipart</td><td>Latest</td><td>File upload handling</td></tr>
+            <tr><td>SMTP (Gmail)</td><td>Built-in</td><td>OTP email delivery</td></tr>
+          </tbody>
+        </table>
+
+        <!-- Database & Tools -->
+        <p style="font-weight:700; color:#1F3556; margin:18px 0 8px; font-size:10.5pt;">Database &amp; Development Tools</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Technology</th>
+              <th>Version</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>MongoDB</td><td>5.0+</td><td>NoSQL document database</td></tr>
+            <tr><td>Git</td><td>—</td><td>Version control</td></tr>
+            <tr><td>Concurrently</td><td>9.0.0</td><td>Run frontend and backend simultaneously</td></tr>
+            <tr><td>npm</td><td>8.x+</td><td>Frontend package manager</td></tr>
+            <tr><td>pip</td><td>—</td><td>Python package manager</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- System Architecture -->
+      <div class="section">
+        <div class="section-title">System Architecture</div>
+        <div class="arch-box">
+          <div class="arch-layers">
+            <div class="arch-layer layer-1">🖥️ Presentation Layer — React.js (Port 3000)</div>
+            <div class="arch-arrow">↕ REST API (Axios / HTTP)</div>
+            <div class="arch-layer layer-2">⚙️ Application Layer — FastAPI / Python (Port 8000)</div>
+            <div class="arch-arrow">↕ PyMongo</div>
+            <div class="arch-layer layer-3">🗄️ Data Layer — MongoDB (Port 27017)</div>
+          </div>
+          <p style="margin-top:16px; font-size:9.5pt; color:#6b7280;">Three-Tier Client–Server Architecture with REST API communication</p>
+        </div>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- System Specifications -->
+      <div class="section">
+        <div class="section-title">System Specifications</div>
+
+        <div class="spec-grid">
+          <div class="spec-card">
+            <h4>Minimum Hardware Requirements</h4>
+            <ul>
+              <li>Processor: Intel Core i3 or equivalent</li>
+              <li>RAM: 4 GB (8 GB recommended)</li>
+              <li>Storage: 2 GB free disk space</li>
+              <li>Network: Active internet connection</li>
+              <li>Display: 1280 × 720 resolution or higher</li>
+            </ul>
+          </div>
+
+          <div class="spec-card">
+            <h4>Software Requirements</h4>
+            <ul>
+              <li>Node.js v16.x or higher</li>
+              <li>npm v8.x or higher</li>
+              <li>Python 3.8 or higher</li>
+              <li>MongoDB 5.0 or higher</li>
+              <li>Modern web browser (Chrome, Firefox, Edge)</li>
+            </ul>
+          </div>
+
+          <div class="spec-card">
+            <h4>Port Configuration</h4>
+            <ul>
+              <li>React Frontend: Port 3000</li>
+              <li>FastAPI Backend: Port 8000</li>
+              <li>MongoDB Database: Port 27017</li>
+              <li>API Proxy: Frontend → Backend (auto)</li>
+            </ul>
+          </div>
+
+          <div class="spec-card">
+            <h4>File Upload Limits</h4>
+            <ul>
+              <li>Images: Max 5 MB per file</li>
+              <li>Formats: JPG, JPEG, PNG, GIF, WebP</li>
+              <li>Videos: Max 100 MB per file</li>
+              <li>Video Formats: MP4, MOV, AVI, MKV, WebM</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- Supported Browsers -->
+      <div class="section">
+        <div class="section-title">Supported Browsers &amp; Platforms</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Browser</th>
+              <th>Support</th>
+              <th>Version</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Google Chrome</td><td><span class="badge">Supported</span></td><td>Last 1 version</td></tr>
+            <tr><td>Mozilla Firefox</td><td><span class="badge">Supported</span></td><td>Last 1 version</td></tr>
+            <tr><td>Microsoft Edge</td><td><span class="badge">Supported</span></td><td>Last 1 version</td></tr>
+            <tr><td>Safari</td><td><span class="badge">Supported</span></td><td>Last 1 version</td></tr>
+            <tr><td>Internet Explorer</td><td><span class="badge" style="background:#fee2e2;color:#991b1b;">Not Supported</span></td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- Key Features -->
+      <div class="section">
+        <div class="section-title">Key Features</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Module</th>
+              <th>Features</th>
+              <th>Access</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Authentication</strong></td>
+              <td>OTP-based 2FA login, Registration, Forgot Password, JWT sessions</td>
+              <td><span class="badge blue">Public</span></td>
+            </tr>
+            <tr>
+              <td><strong>Product Catalog</strong></td>
+              <td>Browse, search, filter by category, quantity variants, multiple images</td>
+              <td><span class="badge blue">Public</span></td>
+            </tr>
+            <tr>
+              <td><strong>Shopping Cart</strong></td>
+              <td>Add/remove items, update quantities, variant selection</td>
+              <td><span class="badge purple">User</span></td>
+            </tr>
+            <tr>
+              <td><strong>Checkout</strong></td>
+              <td>Delivery form, shipping calculation, tax (5%), UPI/COD payment</td>
+              <td><span class="badge purple">User</span></td>
+            </tr>
+            <tr>
+              <td><strong>Reviews</strong></td>
+              <td>Star ratings, verified purchase badge, helpful votes</td>
+              <td><span class="badge purple">User</span></td>
+            </tr>
+            <tr>
+              <td><strong>Admin — Products</strong></td>
+              <td>Full CRUD, pricing variants, bulk image upload, homepage toggle</td>
+              <td><span class="badge" style="background:#fef3c7;color:#92400e;">Admin</span></td>
+            </tr>
+            <tr>
+              <td><strong>Admin — Categories</strong></td>
+              <td>CRUD, display order, image upload, home page toggle (max 4)</td>
+              <td><span class="badge" style="background:#fef3c7;color:#92400e;">Admin</span></td>
+            </tr>
+            <tr>
+              <td><strong>Admin — Banners</strong></td>
+              <td>Create/update carousel banners, CTA links, active/inactive toggle</td>
+              <td><span class="badge" style="background:#fef3c7;color:#92400e;">Admin</span></td>
+            </tr>
+            <tr>
+              <td><strong>Admin — Doctor Videos</strong></td>
+              <td>Upload YouTube/local educational videos, manage doctor profiles</td>
+              <td><span class="badge" style="background:#fef3c7;color:#92400e;">Admin</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- Problem Identification -->
+      <div class="section">
+        <div class="section-title">Problem Identification</div>
+        <div class="abstract-box" style="background:#fff8f0; border-color:#fed7aa;">
+          <p>
+            The herbal and natural wellness product industry in India has seen significant growth in recent years, yet most small and medium-scale herbal product businesses continue to rely heavily on physical stores, word-of-mouth, and social media messaging for sales. This creates several critical problems:
+          </p>
+          <ul style="margin-top:12px; padding-left:20px; color:#374151; font-size:11pt;">
+            <li style="margin-bottom:8px;"><strong>No Online Presence:</strong> Herbal product sellers lack a dedicated, professional e-commerce platform, making it difficult for customers to discover and purchase products online.</li>
+            <li style="margin-bottom:8px;"><strong>Manual Order Management:</strong> Orders are managed manually via phone calls or chat apps, leading to errors, delays, and poor customer experience.</li>
+            <li style="margin-bottom:8px;"><strong>Limited Product Information:</strong> Customers cannot access detailed product information such as ingredients, benefits, usage instructions, or customer reviews before purchasing.</li>
+            <li style="margin-bottom:8px;"><strong>No Secure Authentication:</strong> Existing informal sales channels lack secure login mechanisms, making customer data vulnerable.</li>
+            <li style="margin-bottom:8px;"><strong>Lack of Admin Control:</strong> Business owners have no centralised dashboard to manage products, inventory, promotions, and customer content in real time.</li>
+            <li style="margin-bottom:8px;"><strong>No Expert Guidance:</strong> Customers have no access to doctor or expert recommendations related to herbal products, reducing trust and purchase confidence.</li>
+          </ul>
+          <p style="margin-top:12px;">
+            These problems collectively result in lost sales opportunities, poor customer satisfaction, and an inability to scale the business effectively in the digital marketplace.
+          </p>
+        </div>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- Objective of the Project -->
+      <div class="section">
+        <div class="section-title">Objective of the Project</div>
+        <div class="abstract-box" style="background:#f0fff4; border-color:#bbf7d0;">
+          <p>The primary objective of <strong>Dolphin Naturals</strong> is to develop a fully functional, secure, and user-friendly e-commerce web application that bridges the gap between herbal product sellers and customers. The specific objectives are:</p>
+          <ul style="margin-top:12px; padding-left:20px; color:#374151; font-size:11pt;">
+            <li style="margin-bottom:8px;"><strong>1. Online Product Marketplace:</strong> Build a complete online store where customers can browse, search, filter, and purchase herbal and natural wellness products with ease.</li>
+            <li style="margin-bottom:8px;"><strong>2. Secure Authentication:</strong> Implement a two-factor authentication system using OTP (One-Time Password) and JWT tokens to ensure secure access for all users.</li>
+            <li style="margin-bottom:8px;"><strong>3. Seamless Shopping Experience:</strong> Provide a smooth end-to-end shopping journey — from product discovery to cart management, checkout, and order placement — with support for multiple payment modes.</li>
+            <li style="margin-bottom:8px;"><strong>4. Detailed Product Information:</strong> Display comprehensive product details including images, benefits, ingredients, usage instructions, quantity variants, and customer reviews to assist informed purchasing decisions.</li>
+            <li style="margin-bottom:8px;"><strong>5. Comprehensive Admin Panel:</strong> Develop a powerful admin dashboard for managing products, categories, banners, doctor videos, and platform content without requiring technical knowledge.</li>
+            <li style="margin-bottom:8px;"><strong>6. Expert Content Integration:</strong> Integrate a doctor video section to provide customers with expert guidance on herbal products, increasing trust and credibility of the platform.</li>
+            <li style="margin-bottom:8px;"><strong>7. Scalable and Maintainable Architecture:</strong> Design the system using modern technologies (React.js, FastAPI, MongoDB) to ensure the platform is scalable, maintainable, and ready for future enhancements.</li>
+          </ul>
+        </div>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- Existing System and its Drawbacks -->
+      <div class="section">
+        <div class="section-title">Existing System and its Drawbacks</div>
+
+        <p style="font-weight:700; color:#1F3556; margin-bottom:10px; font-size:10.5pt;">Existing System</p>
+        <div class="abstract-box" style="background:#fafafa; border-color:#e5e7eb; margin-bottom:18px;">
+          <p>
+            Currently, most small herbal product businesses in India operate through one or more of the following informal channels:
+          </p>
+          <ul style="margin-top:10px; padding-left:20px; color:#374151; font-size:11pt;">
+            <li style="margin-bottom:6px;"><strong>Physical Retail Stores:</strong> Products are sold exclusively through brick-and-mortar shops, limiting reach to local customers only.</li>
+            <li style="margin-bottom:6px;"><strong>WhatsApp &amp; Social Media:</strong> Orders are taken via WhatsApp messages or Instagram/Facebook DMs, with no formal order tracking or confirmation system.</li>
+            <li style="margin-bottom:6px;"><strong>Third-Party Marketplaces:</strong> Some sellers list products on platforms like Amazon or Flipkart but pay high commissions and have no control over their brand experience.</li>
+            <li style="margin-bottom:6px;"><strong>Basic Static Websites:</strong> Some businesses have static HTML websites that display products but have no shopping cart, payment, or order management functionality.</li>
+          </ul>
+        </div>
+
+        <p style="font-weight:700; color:#1F3556; margin-bottom:10px; font-size:10.5pt;">Drawbacks of the Existing System</p>
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Drawback</th>
+              <th>Impact</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>No centralised online store</td><td>Limited customer reach, business confined to local geography</td></tr>
+            <tr><td>2</td><td>Manual order processing via chat apps</td><td>Order errors, delays, and poor customer experience</td></tr>
+            <tr><td>3</td><td>No secure login or user accounts</td><td>Customer data not protected, no personalised experience</td></tr>
+            <tr><td>4</td><td>No product reviews or ratings</td><td>Customers cannot make informed decisions, lower trust</td></tr>
+            <tr><td>5</td><td>No inventory or stock management</td><td>Risk of overselling, no real-time stock visibility</td></tr>
+            <tr><td>6</td><td>High third-party commission fees</td><td>Reduced profit margins for sellers on marketplaces</td></tr>
+            <tr><td>7</td><td>No admin control panel</td><td>Cannot update products, banners, or offers in real time</td></tr>
+            <tr><td>8</td><td>No expert content (doctor guidance)</td><td>Reduced customer confidence in herbal product safety</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- System Analysis -->
+      <div class="section">
+        <div class="section-title">System Analysis</div>
+        <div class="abstract-box" style="background:#f0f7ff; border-color:#dbeafe; margin-bottom:20px;">
+          <p>
+            A thorough system analysis was conducted to understand the requirements, feasibility, and scope of the Dolphin Naturals e-commerce platform. The analysis covered functional requirements (what the system should do), non-functional requirements (how the system should perform), and the overall feasibility of the proposed solution.
+          </p>
+          <p style="margin-top:10px;">
+            <strong>Feasibility Study:</strong> The project was evaluated across three dimensions — <em>Technical Feasibility</em> (using freely available, well-supported open-source technologies), <em>Operational Feasibility</em> (simple UI requiring no technical knowledge from end users or admins), and <em>Economic Feasibility</em> (built using zero-cost open-source tools, requiring only hosting costs for deployment).
+          </p>
+        </div>
+
+        <p style="font-weight:700; color:#1F3556; margin-bottom:10px; font-size:10.5pt;">Functional Requirements</p>
+        <table style="margin-bottom:18px;">
+          <thead><tr><th>#</th><th>Requirement</th><th>User Role</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>User registration with OTP email verification</td><td>Public</td></tr>
+            <tr><td>2</td><td>Secure login using credentials + OTP (2FA)</td><td>Public</td></tr>
+            <tr><td>3</td><td>Password reset via OTP</td><td>Public</td></tr>
+            <tr><td>4</td><td>Browse products with search and category filter</td><td>Public</td></tr>
+            <tr><td>5</td><td>View detailed product page with images and variants</td><td>Public</td></tr>
+            <tr><td>6</td><td>Add products to cart and manage quantities</td><td>Logged-in User</td></tr>
+            <tr><td>7</td><td>Place orders with delivery info and payment method</td><td>Logged-in User</td></tr>
+            <tr><td>8</td><td>Submit product reviews with star ratings</td><td>Logged-in User</td></tr>
+            <tr><td>9</td><td>Admin CRUD for products, categories, banners, videos</td><td>Admin</td></tr>
+            <tr><td>10</td><td>Upload product images and doctor videos</td><td>Admin</td></tr>
+          </tbody>
+        </table>
+
+        <p style="font-weight:700; color:#1F3556; margin-bottom:10px; font-size:10.5pt;">Non-Functional Requirements</p>
+        <table>
+          <thead><tr><th>Attribute</th><th>Requirement</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Security</strong></td><td>OTP-based 2FA, JWT session tokens, Bcrypt password hashing, role-based access control</td></tr>
+            <tr><td><strong>Performance</strong></td><td>Fast API responses using FastAPI's async capabilities; React frontend for efficient rendering</td></tr>
+            <tr><td><strong>Usability</strong></td><td>Clean, responsive UI accessible on desktop and mobile browsers without installation</td></tr>
+            <tr><td><strong>Scalability</strong></td><td>MongoDB's document model allows easy horizontal scaling as product catalog grows</td></tr>
+            <tr><td><strong>Maintainability</strong></td><td>Modular codebase with separate frontend/backend, clean route structure, reusable components</td></tr>
+            <tr><td><strong>Reliability</strong></td><td>Input validation via Pydantic, error handling on both frontend and backend layers</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- Modules Identification and Description -->
+      <div class="section">
+        <div class="section-title">Modules Identification and Description</div>
+        <p style="font-size:10.5pt; color:#374151; margin-bottom:16px;">
+          The Dolphin Naturals application is divided into the following major modules, each handling a distinct functional area of the system:
+        </p>
+
+        <div style="display:flex; flex-direction:column; gap:14px;">
+
+          <div class="spec-card" style="border-left:4px solid #1F3556;">
+            <h4 style="border:none; padding:0; margin-bottom:6px;">Module 1 — User Authentication &amp; Authorization</h4>
+            <p style="font-size:10pt; color:#374151;">Handles all user identity management including registration, login, OTP verification, password reset, and JWT-based session management. Role-based access control restricts admin features to authorised users only. Bcrypt is used for secure password storage.</p>
+          </div>
+
+          <div class="spec-card" style="border-left:4px solid #6FAE4F;">
+            <h4 style="border:none; padding:0; margin-bottom:6px;">Module 2 — Product Catalog</h4>
+            <p style="font-size:10pt; color:#374151;">Manages all product data including name, description, pricing (MRP, sale price, discount), stock, multiple images, tags, benefits, ingredients, how-to-use, and quantity variants. Supports search and category-based filtering for easy product discovery.</p>
+          </div>
+
+          <div class="spec-card" style="border-left:4px solid #2d5282;">
+            <h4 style="border:none; padding:0; margin-bottom:6px;">Module 3 — Shopping Cart</h4>
+            <p style="font-size:10pt; color:#374151;">Allows authenticated users to add products (with optional variant selection) to their cart, update quantities, remove items, and view running totals. Cart data is persisted in MongoDB and associated with the user's account for continuity across sessions.</p>
+          </div>
+
+          <div class="spec-card" style="border-left:4px solid #7c3aed;">
+            <h4 style="border:none; padding:0; margin-bottom:6px;">Module 4 — Order &amp; Checkout</h4>
+            <p style="font-size:10pt; color:#374151;">Processes customer orders by collecting delivery information (name, address, mobile, pincode), calculating subtotal, shipping charges (free above ₹2000), and 5% tax. Supports UPI and Cash on Delivery (COD) payment methods. Orders are stored in MongoDB for tracking.</p>
+          </div>
+
+          <div class="spec-card" style="border-left:4px solid #b45309;">
+            <h4 style="border:none; padding:0; margin-bottom:6px;">Module 5 — Reviews &amp; Ratings</h4>
+            <p style="font-size:10pt; color:#374151;">Enables authenticated users to submit product reviews with 1–5 star ratings, review titles, and comments. Displays verified purchase badges, review breakdowns, average ratings, and helpful vote counts. Each user is limited to one review per product.</p>
+          </div>
+
+          <div class="spec-card" style="border-left:4px solid #0e7490;">
+            <h4 style="border:none; padding:0; margin-bottom:6px;">Module 6 — Admin Panel</h4>
+            <p style="font-size:10pt; color:#374151;">A protected admin dashboard providing full CRUD operations for products, categories, banners, and doctor videos. Admins can control homepage visibility (max 4 products/categories featured), manage file uploads, toggle active status, and set display order for categories and videos.</p>
+          </div>
+
+          <div class="spec-card" style="border-left:4px solid #dc2626;">
+            <h4 style="border:none; padding:0; margin-bottom:6px;">Module 7 — Banner &amp; Promotions</h4>
+            <p style="font-size:10pt; color:#374151;">Manages promotional homepage banners with title, subtitle, call-to-action button (text + link), and banner image. Admins can create, update, and toggle banners active or inactive. Active banners appear in the homepage carousel with auto-slide functionality.</p>
+          </div>
+
+          <div class="spec-card" style="border-left:4px solid #059669;">
+            <h4 style="border:none; padding:0; margin-bottom:6px;">Module 8 — Doctor Videos</h4>
+            <p style="font-size:10pt; color:#374151;">Provides an educational video section where admins can upload doctor-recommended content (YouTube links or locally uploaded videos). Each video includes doctor name, designation, description, thumbnail, and duration. Videos are displayed in a grid on the home page to build customer trust.</p>
+          </div>
+
+          <div class="spec-card" style="border-left:4px solid #9333ea;">
+            <h4 style="border:none; padding:0; margin-bottom:6px;">Module 9 — File Upload</h4>
+            <p style="font-size:10pt; color:#374151;">Handles secure file uploads for product images (max 5MB: JPG, PNG, GIF, WebP) and doctor videos (max 100MB: MP4, MOV, AVI, MKV, WebM). Files are validated for type and size, stored with unique UUID-based filenames, and served as static assets via FastAPI.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <hr class="divider"/>
+
+      <!-- Methodology to be Adopted -->
+      <div class="section">
+        <div class="section-title">Methodology to be Adopted</div>
+        <div class="abstract-box" style="background:#f0f7ff; border-color:#dbeafe; margin-bottom:20px;">
+          <p>
+            The development of the Dolphin Naturals platform follows the <strong>Agile Development Methodology</strong>, specifically an iterative and incremental approach. This methodology was chosen due to its flexibility, continuous feedback integration, and suitability for web application development where requirements may evolve over time.
+          </p>
+        </div>
+
+        <p style="font-weight:700; color:#1F3556; margin-bottom:10px; font-size:10.5pt;">Development Phases</p>
+        <table style="margin-bottom:20px;">
+          <thead><tr><th>Phase</th><th>Activity</th><th>Outcome</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Phase 1</strong><br/>Requirement Analysis</td>
+              <td>Identify stakeholder needs, define functional and non-functional requirements, feasibility study</td>
+              <td>Requirements document, system scope definition</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 2</strong><br/>System Design</td>
+              <td>Design database schema (MongoDB collections), API endpoint structure, UI wireframes, component hierarchy</td>
+              <td>Architecture design, ER diagram, API specification</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 3</strong><br/>Backend Development</td>
+              <td>Implement FastAPI routes (auth, products, cart, orders, reviews, admin), MongoDB integration, JWT and OTP logic</td>
+              <td>Functional REST API with all endpoints</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 4</strong><br/>Frontend Development</td>
+              <td>Build React components and pages, integrate Axios API calls, implement routing, authentication context, and CSS styling</td>
+              <td>Complete responsive web application UI</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 5</strong><br/>Integration &amp; Testing</td>
+              <td>Connect frontend with backend APIs, test all user flows (registration, cart, checkout, admin), fix bugs</td>
+              <td>Fully integrated and tested application</td>
+            </tr>
+            <tr>
+              <td><strong>Phase 6</strong><br/>Deployment</td>
+              <td>Configure production environment, set up MongoDB connection, serve static files, deploy frontend and backend</td>
+              <td>Live, accessible web application</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p style="font-weight:700; color:#1F3556; margin-bottom:10px; font-size:10.5pt;">Why Agile?</p>
+        <div class="spec-grid">
+          <div class="spec-card">
+            <h4>Advantages of Agile for this Project</h4>
+            <ul>
+              <li>Iterative development allows early delivery of working features</li>
+              <li>Flexibility to adapt to changing requirements</li>
+              <li>Continuous testing reduces bugs at each stage</li>
+              <li>Encourages modular, maintainable code structure</li>
+              <li>Rapid feedback from stakeholders at each iteration</li>
+            </ul>
+          </div>
+          <div class="spec-card">
+            <h4>Tools &amp; Practices Used</h4>
+            <ul>
+              <li>Git for version control and change tracking</li>
+              <li>Modular component-based development (React)</li>
+              <li>REST API-first backend design (FastAPI)</li>
+              <li>Separation of concerns (Frontend / Backend / DB)</li>
+              <li>Incremental feature rollout and testing</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+
+    <!-- Footer -->
+    <div class="footer">
+      Dolphin Naturals &nbsp;|&nbsp; Full-Stack E-Commerce Web Application &nbsp;|&nbsp; 2025–2026
+    </div>
+
+  </div><!-- /wrapper -->
+
+</body>
+</html>

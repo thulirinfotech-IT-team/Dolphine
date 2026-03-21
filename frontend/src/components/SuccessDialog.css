@@ -1,0 +1,107 @@
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.dialog-box {
+  background: white;
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease-out;
+}
+
+.dialog-icon {
+  width: 64px;
+  height: 64px;
+  background: #6FAE4F;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 32px;
+  color: white;
+  animation: scaleIn 0.4s ease-out;
+}
+
+.dialog-title {
+  font-size: 24px;
+  color: #0F172A;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+}
+
+.dialog-message {
+  font-size: 16px;
+  color: #475569;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.dialog-button {
+  background: #6FAE4F;
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  min-width: 120px;
+}
+
+.dialog-button:hover {
+  background: #5c9340;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(111, 174, 79, 0.3);
+}
+
+.dialog-button:active {
+  transform: translateY(0);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

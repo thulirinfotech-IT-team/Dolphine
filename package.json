@@ -1,0 +1,19 @@
+{
+  "name": "dolphin-naturals",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"cd backend && python manage.py runserver\" \"cd frontend && npm start\"",
+    "backend": "cd backend && python manage.py runserver",
+    "frontend": "cd frontend && npm start",
+    "migrate": "cd backend && python manage.py migrate",
+    "makemigrations": "cd backend && python manage.py makemigrations",
+    "createsuperuser": "cd backend && python manage.py createsuperuser"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "react-router-dom": "^7.11.0"
+  }
+}

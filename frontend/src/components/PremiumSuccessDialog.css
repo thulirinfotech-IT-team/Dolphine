@@ -1,0 +1,209 @@
+.premium-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(31, 53, 86, 0.9) 100%);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  animation: premiumFadeIn 0.3s ease-out;
+}
+
+.premium-dialog-box {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 24px;
+  padding: 48px 40px;
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  animation: premiumSlideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-dialog-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #10B981 0%, #059669 50%, #10B981 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+.premium-dialog-header {
+  margin-bottom: 24px;
+}
+
+.premium-success-icon {
+  display: inline-block;
+  animation: premiumScaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.premium-success-icon svg {
+  filter: drop-shadow(0 10px 20px rgba(16, 185, 129, 0.3));
+}
+
+.premium-dialog-content {
+  margin-bottom: 32px;
+}
+
+.premium-dialog-title {
+  font-size: 32px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #0F172A 0%, #1F3556 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 12px 0;
+  animation: premiumSlideDown 0.5s ease-out 0.2s both;
+}
+
+.premium-dialog-message {
+  font-size: 17px;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 500;
+  animation: premiumSlideDown 0.5s ease-out 0.3s both;
+}
+
+.premium-dialog-button {
+  background: linear-gradient(135deg, #10B981 0%, #059669 100%);
+  color: white;
+  border: none;
+  padding: 16px 40px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow:
+    0 10px 25px rgba(16, 185, 129, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  animation: premiumSlideDown 0.5s ease-out 0.4s both;
+}
+
+.premium-dialog-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s;
+}
+
+.premium-dialog-button:hover::before {
+  left: 100%;
+}
+
+.premium-dialog-button:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 15px 35px rgba(16, 185, 129, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.premium-dialog-button:active {
+  transform: translateY(-1px);
+}
+
+.premium-dialog-button svg {
+  transition: transform 0.3s ease;
+}
+
+.premium-dialog-button:hover svg {
+  transform: translateX(4px);
+}
+
+/* Animations */
+@keyframes premiumFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes premiumSlideUp {
+  from {
+    transform: translateY(40px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes premiumSlideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes premiumScaleIn {
+  0% {
+    transform: scale(0) rotate(-180deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .premium-dialog-box {
+    padding: 36px 24px;
+  }
+
+  .premium-dialog-title {
+    font-size: 26px;
+  }
+
+  .premium-dialog-message {
+    font-size: 15px;
+  }
+
+  .premium-dialog-button {
+    padding: 14px 32px;
+    font-size: 16px;
+  }
+}

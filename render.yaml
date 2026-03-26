@@ -1,0 +1,48 @@
+services:
+  # Backend (Django API)
+  - type: web
+    name: dolphin-backend
+    runtime: python
+    plan: free
+    buildCommand: "./backend/build.sh"
+    startCommand: "cd backend && gunicorn dolphin.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: False
+      - key: DATABASE_URL
+        fromDatabase:
+          name: dolphin-db
+          property: connectionString
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+
+  # Frontend (React)
+  - type: web
+    name: dolphin-frontend
+    runtime: node
+    plan: free
+    buildCommand: "cd frontend && npm install && npm run build"
+    startCommand: "cd frontend && npm install -g serve && serve -s build -p $PORT"
+    envVars:
+      - key: NODE_VERSION
+        value: 18.17.0
+      - key: REACT_APP_API_URL
+        value: https://dolphin-backend.onrender.com
+
+databases:
+  - name: dolphin-db
+    plan: free
+    databaseName: dolphin_naturals
+    user: dolphin_user

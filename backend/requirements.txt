@@ -5,6 +5,7 @@ djangorestframework-simplejwt==5.3.1
 
 # Database
 psycopg2-binary==2.9.9
+dj-database-url==2.1.0
 
 # CORS
 django-cors-headers==4.3.1
@@ -17,6 +18,7 @@ razorpay==1.4.2
 
 # Server (production)
 gunicorn==21.2.0
+whitenoise==6.6.0
 
 # Image/File handling
 Pillow==10.2.0

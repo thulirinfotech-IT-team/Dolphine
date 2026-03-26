@@ -4,7 +4,7 @@ services:
     name: dolphin-backend
     runtime: python
     plan: free
-    buildCommand: "./backend/build.sh"
+    buildCommand: "cd backend && chmod +x build.sh && ./build.sh"
     startCommand: "cd backend && gunicorn dolphin.wsgi:application"
     envVars:
       - key: PYTHON_VERSION

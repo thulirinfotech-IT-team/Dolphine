@@ -213,3 +213,60 @@ def update_order_status(request, order_id):
     order.save()
 
     return Response(OrderSerializer(order).data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def upload_image(request):
+    """Upload an image to Cloudinary"""
+    from .cloudinary_utils import upload_image_to_cloudinary
+
+    if 'file' not in request.FILES:
+        return Response({'detail': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+    file = request.FILES['file']
+    folder = request.data.get('folder', 'products')  # Default folder: products
+
+    # Upload to Cloudinary
+    result = upload_image_to_cloudinary(file, folder=folder)
+
+    if result['success']:
+        return Response({
+            'url': result['url'],
+            'public_id': result['public_id'],
+            'width': result['width'],
+            'height': result['height'],
+        })
+    else:
+        return Response({
+            'detail': result['error']
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
+def upload_video(request):
+    """Upload a video to Cloudinary"""
+    from .cloudinary_utils import upload_video_to_cloudinary
+
+    if 'file' not in request.FILES:
+        return Response({'detail': 'No file provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+    file = request.FILES['file']
+    folder = request.data.get('folder', 'videos')  # Default folder: videos
+
+    # Upload to Cloudinary
+    result = upload_video_to_cloudinary(file, folder=folder)
+
+    if result['success']:
+        return Response({
+            'url': result['url'],
+            'public_id': result['public_id'],
+            'width': result['width'],
+            'height': result['height'],
+            'duration': result.get('duration'),
+        })
+    else:
+        return Response({
+            'detail': result['error']
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

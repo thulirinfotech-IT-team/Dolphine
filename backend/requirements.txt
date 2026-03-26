@@ -20,3 +20,5 @@ gunicorn==21.2.0
 
 # Image/File handling
 Pillow==10.2.0
+cloudinary==1.40.0
+django-cloudinary-storage==0.3.0

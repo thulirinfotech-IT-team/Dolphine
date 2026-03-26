@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'cloudinary_storage',
+    'cloudinary',
 
     # Local apps
     'api',
@@ -187,3 +189,25 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Use console 
 # EMAIL_USE_TLS = True
 # EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 # EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+
+# Cloudinary Configuration (Image & Video Storage)
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config(
+    cloud_name=os.getenv('CLOUDINARY_CLOUD_NAME', ''),
+    api_key=os.getenv('CLOUDINARY_API_KEY', ''),
+    api_secret=os.getenv('CLOUDINARY_API_SECRET', ''),
+    secure=True
+)
+
+# Cloudinary Storage Settings
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', ''),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY', ''),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', ''),
+}
+
+# Default file storage for media files
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

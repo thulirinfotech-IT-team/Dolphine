@@ -12,15 +12,22 @@ python manage.py collectstatic --no-input
 python manage.py migrate
 
 # Create superuser automatically if it doesn't exist
+# Hardcoded credentials - change these as needed
+ADMIN_EMAIL="admin@dolphinnaturals.com"
+ADMIN_PASSWORD="Dolphin@2026"
+ADMIN_NAME="Admin"
+
 python manage.py shell -c "
 from api.models import User
-if not User.objects.filter(email='${DJANGO_SUPERUSER_EMAIL:-admin@dolphinnaturals.com}').exists():
+if not User.objects.filter(email='${ADMIN_EMAIL}').exists():
     User.objects.create_superuser(
-        email='${DJANGO_SUPERUSER_EMAIL:-admin@dolphinnaturals.com}',
-        password='${DJANGO_SUPERUSER_PASSWORD:-Admin@123}',
-        name='${DJANGO_SUPERUSER_NAME:-Admin}'
+        email='${ADMIN_EMAIL}',
+        password='${ADMIN_PASSWORD}',
+        name='${ADMIN_NAME}'
     )
     print('✅ Superuser created successfully!')
+    print('   Email: ${ADMIN_EMAIL}')
+    print('   Password: ${ADMIN_PASSWORD}')
 else:
     print('ℹ️ Superuser already exists')
 " || echo "Superuser creation skipped"

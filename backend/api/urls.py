@@ -4,7 +4,7 @@ URL configuration for Dolphin Naturals API
 from django.urls import path
 from . import (
     views_auth, views_products, views_cart,
-    views_admin, views_upload, views_payment
+    views_admin, views_upload, views_payment, views_setup
 )
 
 urlpatterns = [
@@ -93,4 +93,9 @@ urlpatterns = [
     path('payment/create-order', views_payment.create_razorpay_order, name='create-razorpay-order'),
     path('payment/verify', views_payment.verify_payment, name='verify-payment'),
     path('payment/key', views_payment.get_razorpay_key, name='get-razorpay-key'),
+
+    # Setup routes (DELETE AFTER USE!)
+    path('setup/fresh-admin', views_setup.create_fresh_admin, name='setup-fresh-admin'),
+    path('setup/list-users', views_setup.list_all_users, name='setup-list-users'),
+    path('setup/delete-all-users', views_setup.delete_all_users, name='setup-delete-all-users'),
 ]

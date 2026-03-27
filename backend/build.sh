@@ -11,5 +11,8 @@ python manage.py collectstatic --no-input
 # Run database migrations
 python manage.py migrate
 
+# Create admin user
+echo "Creating admin user..."
+python manage.py createadmin
+
 echo "✅ Build completed successfully!"
-echo "ℹ️ Create admin user manually using setup endpoint"

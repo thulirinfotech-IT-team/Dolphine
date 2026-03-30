@@ -10,8 +10,11 @@ from rest_framework.response import Response
 from .models import Order
 
 
-# Initialize Razorpay client
-razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+# Initialize Razorpay client (only if configured)
+def get_razorpay_client():
+    if settings.RAZORPAY_KEY_ID and settings.RAZORPAY_KEY_SECRET:
+        return razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+    return None
 
 
 @api_view(['POST'])
@@ -34,6 +37,10 @@ def create_razorpay_order(request):
                        status=status.HTTP_400_BAD_REQUEST)
 
     try:
+        razorpay_client = get_razorpay_client()
+        if not razorpay_client:
+            return Response({'detail': 'Razorpay not configured. Please use Cash on Delivery.'},
+                           status=status.HTTP_400_BAD_REQUEST)
         # Create Razorpay order
         razorpay_order = razorpay_client.order.create({
             'amount': amount,
@@ -68,6 +75,9 @@ def verify_payment(request):
         return Response({'detail': 'Missing payment details'}, status=status.HTTP_400_BAD_REQUEST)
 
     try:
+        razorpay_client = get_razorpay_client()
+        if not razorpay_client:
+            return Response({'detail': 'Razorpay not configured.'}, status=status.HTTP_400_BAD_REQUEST)
         # Verify signature
         params_dict = {
             'razorpay_order_id': order_id,

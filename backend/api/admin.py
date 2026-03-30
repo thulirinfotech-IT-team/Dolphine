@@ -247,12 +247,21 @@ class DoctorVideoAdmin(admin.ModelAdmin):
     list_filter = ['video_type', 'active', 'created_at']
     search_fields = ['title', 'doctor_name', 'description']
     ordering = ['display_order']
-    fields = [
-        'title', 'doctor_name', 'designation', 'description', 'duration',
-        'video_url', 'video_file',
-        'thumbnail_url', 'thumbnail_file',
-        'video_type', 'active', 'display_order'
-    ]
+    fieldsets = (
+        ('Doctor Info', {
+            'fields': ('title', 'doctor_name', 'designation', 'description', 'duration')
+        }),
+        ('Video', {
+            'fields': ('video_type', 'video_url', 'video_file'),
+            'description': 'For YouTube: paste URL. For local video: choose file.'
+        }),
+        ('Thumbnail', {
+            'fields': ('thumbnail_url', 'thumbnail_file'),
+        }),
+        ('Settings', {
+            'fields': ('active', 'display_order')
+        }),
+    )
 
 
 @admin.register(OTP)

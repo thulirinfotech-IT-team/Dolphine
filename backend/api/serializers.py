@@ -65,6 +65,7 @@ class OTPVerifySerializer(serializers.Serializer):
 class CategorySerializer(serializers.ModelSerializer):
     """Category serializer"""
     product_count = serializers.SerializerMethodField()
+    icon_image = serializers.SerializerMethodField()
 
     class Meta:
         model = Category
@@ -73,13 +74,26 @@ class CategorySerializer(serializers.ModelSerializer):
     def get_product_count(self, obj):
         return obj.products.filter(stock__gt=0).count()
 
+    def get_icon_image(self, obj):
+        """Always return the correct image URL (prefer icon_file Cloudinary URL)"""
+        if obj.icon_file:
+            return obj.icon_file.url
+        return obj.icon_image or ""
+
 
 class ProductImageSerializer(serializers.ModelSerializer):
     """Product image serializer"""
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = ProductImage
         fields = ['id', 'image_url', 'display_order']
+
+    def get_image_url(self, obj):
+        """Always return the correct image URL (prefer image_file Cloudinary URL)"""
+        if obj.image_file:
+            return obj.image_file.url
+        return obj.image_url or ""
 
 
 class QuantityVariantSerializer(serializers.ModelSerializer):
@@ -205,10 +219,17 @@ class OrderSerializer(serializers.ModelSerializer):
 
 class BannerSerializer(serializers.ModelSerializer):
     """Banner serializer"""
+    image_url = serializers.SerializerMethodField()
 
     class Meta:
         model = Banner
         fields = '__all__'
+
+    def get_image_url(self, obj):
+        """Always return the correct image URL (prefer image_file Cloudinary URL)"""
+        if obj.image_file:
+            return obj.image_file.url
+        return obj.image_url or ""
 
 
 class DoctorVideoSerializer(serializers.ModelSerializer):

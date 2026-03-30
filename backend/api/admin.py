@@ -46,9 +46,11 @@ class ProductAdminForm(forms.ModelForm):
             if self.instance.sale_price:
                 self.fields['sale_price_rupees'].initial = self.instance.sale_price / 100
 
-        # Hide the original paise fields
+        # Hide the original paise fields and make them not required
         self.fields['mrp'].widget = forms.HiddenInput()
+        self.fields['mrp'].required = False
         self.fields['sale_price'].widget = forms.HiddenInput()
+        self.fields['sale_price'].required = False
 
         # Make discount read-only with better styling
         self.fields['discount_percent'].widget.attrs.update({
@@ -64,16 +66,20 @@ class ProductAdminForm(forms.ModelForm):
         mrp_rupees = cleaned_data.get('mrp_rupees')
         sale_price_rupees = cleaned_data.get('sale_price_rupees')
 
-        if mrp_rupees is not None:
+        if mrp_rupees:
             cleaned_data['mrp'] = int(mrp_rupees * 100)
+        elif not cleaned_data.get('mrp'):
+            raise forms.ValidationError("MRP (₹) is required.")
 
-        if sale_price_rupees is not None:
+        if sale_price_rupees:
             cleaned_data['sale_price'] = int(sale_price_rupees * 100)
+        elif not cleaned_data.get('sale_price'):
+            raise forms.ValidationError("Sale Price (₹) is required.")
 
-            # Auto-calculate discount if both prices are provided
-            if mrp_rupees and sale_price_rupees and mrp_rupees > 0:
-                discount = ((mrp_rupees - sale_price_rupees) / mrp_rupees) * 100
-                cleaned_data['discount_percent'] = round(discount)
+        # Auto-calculate discount
+        if mrp_rupees and sale_price_rupees and mrp_rupees > 0:
+            discount = ((mrp_rupees - sale_price_rupees) / mrp_rupees) * 100
+            cleaned_data['discount_percent'] = round(discount)
 
         return cleaned_data
 

@@ -107,10 +107,13 @@ class Category(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        # If file uploaded, set URL to the file path
-        if self.icon_file:
-            self.icon_image = self.icon_file.url
         super().save(*args, **kwargs)
+        # After save, get the Cloudinary URL
+        if self.icon_file:
+            url = self.icon_file.url
+            if url != self.icon_image:
+                self.icon_image = url
+                Category.objects.filter(pk=self.pk).update(icon_image=url)
 
     class Meta:
         db_table = 'categories'
@@ -169,10 +172,13 @@ class ProductImage(models.Model):
         ordering = ['display_order']
 
     def save(self, *args, **kwargs):
-        # If file uploaded, set URL to the file path
-        if self.image_file:
-            self.image_url = self.image_file.url
         super().save(*args, **kwargs)
+        # After save, get the Cloudinary URL
+        if self.image_file:
+            url = self.image_file.url
+            if url != self.image_url:
+                self.image_url = url
+                ProductImage.objects.filter(pk=self.pk).update(image_url=url)
 
     def __str__(self):
         return f"Image for {self.product.name}"
@@ -318,10 +324,13 @@ class Banner(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
-        # If file uploaded, set URL to the file path
-        if self.image_file:
-            self.image_url = self.image_file.url
         super().save(*args, **kwargs)
+        # After save, get the Cloudinary URL
+        if self.image_file:
+            url = self.image_file.url
+            if url != self.image_url:
+                self.image_url = url
+                Banner.objects.filter(pk=self.pk).update(image_url=url)
 
     class Meta:
         db_table = 'banners'

@@ -353,15 +353,30 @@ class DoctorVideo(models.Model):
     title = models.CharField(max_length=255)
     doctor_name = models.CharField(max_length=255)
     designation = models.CharField(max_length=255)
-    video_url = models.CharField(max_length=500)
-    video_type = models.CharField(max_length=10, choices=VIDEO_TYPE_CHOICES, default='youtube')
+    video_url = models.CharField(max_length=500, blank=True, help_text="YouTube URL or leave blank to upload file")
+    video_file = models.FileField(upload_to='videos/', blank=True, null=True, help_text="Upload local video file")
     thumbnail_url = models.CharField(max_length=500, blank=True)
+    thumbnail_file = models.ImageField(upload_to='thumbnails/', blank=True, null=True, help_text="Upload thumbnail image")
+    video_type = models.CharField(max_length=10, choices=VIDEO_TYPE_CHOICES, default='youtube')
     description = models.TextField(blank=True)
     duration = models.CharField(max_length=20, blank=True)
     active = models.BooleanField(default=True)
     display_order = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.video_file:
+            url = self.video_file.url
+            if url != self.video_url:
+                self.video_url = url
+                DoctorVideo.objects.filter(pk=self.pk).update(video_url=url, video_type='local')
+        if self.thumbnail_file:
+            url = self.thumbnail_file.url
+            if url != self.thumbnail_url:
+                self.thumbnail_url = url
+                DoctorVideo.objects.filter(pk=self.pk).update(thumbnail_url=url)
 
     class Meta:
         db_table = 'doctor_videos'

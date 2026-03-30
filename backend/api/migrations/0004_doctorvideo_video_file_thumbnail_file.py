@@ -1,5 +1,4 @@
 from django.db import migrations, models
-import cloudinary_storage.storage
 
 
 class Migration(migrations.Migration):
@@ -12,12 +11,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='doctorvideo',
             name='video_file',
-            field=models.FileField(blank=True, null=True, upload_to='videos/', help_text='Upload local video file', storage=cloudinary_storage.storage.MediaCloudinaryStorage()),
+            field=models.FileField(blank=True, null=True, upload_to='videos/', help_text='Upload local video file'),
         ),
         migrations.AddField(
             model_name='doctorvideo',
             name='thumbnail_file',
-            field=models.ImageField(blank=True, null=True, upload_to='thumbnails/', help_text='Upload thumbnail image', storage=cloudinary_storage.storage.MediaCloudinaryStorage()),
+            field=models.ImageField(blank=True, null=True, upload_to='thumbnails/', help_text='Upload thumbnail image'),
         ),
         migrations.AlterField(
             model_name='doctorvideo',

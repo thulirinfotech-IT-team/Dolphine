@@ -253,10 +253,6 @@ class DoctorVideoAdmin(admin.ModelAdmin):
         'thumbnail_url', 'thumbnail_file',
         'video_type', 'active', 'display_order'
     ]
-    help_texts = {
-        'video_url': 'Enter YouTube URL OR leave blank and upload a local video file below',
-        'video_file': 'Upload local video (MP4, MOV etc.) - Cloudinary storage',
-    }
 
 
 @admin.register(OTP)

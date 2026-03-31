@@ -172,6 +172,11 @@ class ProductAdmin(admin.ModelAdmin):
         ('📦 Inventory & Display', {
             'fields': ('stock', 'show_on_home')
         }),
+        ('🌿 Product Details', {
+            'fields': ('benefits', 'ingredients', 'how_to_use', 'tags'),
+            'classes': ('collapse',),
+            'description': 'Enter as JSON list e.g. ["item1", "item2"] for benefits/ingredients/tags'
+        }),
         ('🔒 Hidden Fields (Do not edit)', {
             'fields': ('mrp', 'sale_price'),
             'classes': ('collapse',)

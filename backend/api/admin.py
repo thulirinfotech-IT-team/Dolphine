@@ -11,8 +11,31 @@ from .models import (
 )
 
 
+class PlainTextListField(forms.CharField):
+    """Accept plain text (one item per line), convert to/from JSON list"""
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault('widget', forms.Textarea(attrs={'rows': 4}))
+        kwargs.setdefault('required', False)
+        super().__init__(*args, **kwargs)
+
+    def prepare_value(self, value):
+        if isinstance(value, list):
+            return '\n'.join(value)
+        return value or ''
+
+    def to_python(self, value):
+        if not value:
+            return []
+        lines = [line.strip() for line in value.strip().splitlines() if line.strip()]
+        return lines
+
+
 class ProductAdminForm(forms.ModelForm):
     """Custom form to display prices in Rupees instead of Paise"""
+
+    benefits = PlainTextListField(label='Benefits', help_text='One benefit per line')
+    ingredients = PlainTextListField(label='Ingredients', help_text='One ingredient per line')
+    tags = PlainTextListField(label='Tags', help_text='One tag per line')
 
     mrp_rupees = forms.DecimalField(
         label='MRP (₹)',

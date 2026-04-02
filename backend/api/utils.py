@@ -109,10 +109,36 @@ Dolphin Naturals Team
 
 
 def send_otp_sms(mobile, otp):
-    """Send OTP via SMS (placeholder - integrate with SMS provider)"""
-    # TODO: Integrate with SMS provider (Twilio, AWS SNS, etc.)
-    print(f"SMS to {mobile}: Your OTP is {otp}")
-    return True
+    """Send OTP via SMS using Fast2SMS"""
+    import requests
+    api_key = settings.FAST2SMS_API_KEY if hasattr(settings, 'FAST2SMS_API_KEY') else ''
+
+    if not api_key:
+        print(f"SMS skipped - FAST2SMS_API_KEY not configured. OTP for {mobile}: {otp}")
+        return False
+
+    try:
+        response = requests.post(
+            'https://www.fast2sms.com/dev/bulkV2',
+            headers={'authorization': api_key},
+            data={
+                'route': 'otp',
+                'variables_values': otp,
+                'flash': 0,
+                'numbers': mobile,
+            },
+            timeout=10
+        )
+        result = response.json()
+        if result.get('return'):
+            print(f"✅ SMS sent to {mobile}")
+            return True
+        else:
+            print(f"❌ SMS failed: {result}")
+            return False
+    except Exception as e:
+        print(f"❌ SMS error: {e}")
+        return False
 
 
 def generate_order_id():

@@ -161,7 +161,6 @@ def send_otp(request):
         'message': f"OTP sent to {'email' if email else 'mobile'}",
         'identifier': identifier,
         'email_sent': email_sent,
-        'dev_otp': otp_code  # Remove in production after email is configured
     })
 
 

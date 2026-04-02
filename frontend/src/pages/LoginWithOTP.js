@@ -319,24 +319,6 @@ export default function LoginWithOTP() {
             {/* Step 2: OTP Verification */}
             {step === 2 && (
               <form className="premium-auth-form" onSubmit={verifyLoginOTP}>
-                {/* Development mode OTP display */}
-                {devOtp && (
-                  <div style={{
-                    background: "#fef3c7",
-                    border: "1px solid #f59e0b",
-                    borderRadius: "8px",
-                    padding: "12px 16px",
-                    marginBottom: "16px",
-                    textAlign: "center"
-                  }}>
-                    <p style={{ margin: 0, fontSize: "12px", color: "#92400e", fontWeight: 600 }}>
-                      🔧 DEV MODE — Your OTP:
-                    </p>
-                    <p style={{ margin: "4px 0 0", fontSize: "28px", fontWeight: 700, letterSpacing: "8px", color: "#b45309" }}>
-                      {devOtp}
-                    </p>
-                  </div>
-                )}
                 <div className="form-group">
                   <label htmlFor="otp">Enter 6-Digit OTP</label>
                   <div className="input-wrapper">

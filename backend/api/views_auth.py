@@ -149,20 +149,19 @@ def send_otp(request):
     )
 
     # Send OTP
+    email_sent = False
     if email:
-        success = send_otp_email(email, otp_code, name)
-        if not success:
-            return Response({'detail': 'Failed to send OTP email'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    else:
-        success = send_otp_sms(mobile, otp_code)
-        if not success:
-            return Response({'detail': 'Failed to send OTP SMS'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        email_sent = send_otp_email(email, otp_code, name)
+
+    if mobile:
+        send_otp_sms(mobile, otp_code)
 
     return Response({
         'status': 'success',
         'message': f"OTP sent to {'email' if email else 'mobile'}",
         'identifier': identifier,
-        'dev_otp': otp_code  # Development only - remove in production
+        'email_sent': email_sent,
+        'dev_otp': otp_code  # Remove in production after email is configured
     })
 
 

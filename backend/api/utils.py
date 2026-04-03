@@ -117,7 +117,19 @@ def send_otp_sms(mobile, otp):
         print(f"SMS skipped - FAST2SMS_API_KEY not configured. OTP for {mobile}: {otp}")
         return False
 
+    # Normalize mobile: remove +91, 91 prefix, spaces, dashes — keep 10 digits
+    clean_mobile = str(mobile).strip().replace(' ', '').replace('-', '')
+    if clean_mobile.startswith('+91'):
+        clean_mobile = clean_mobile[3:]
+    elif clean_mobile.startswith('91') and len(clean_mobile) == 12:
+        clean_mobile = clean_mobile[2:]
+
+    if len(clean_mobile) != 10 or not clean_mobile.isdigit():
+        print(f"❌ Invalid mobile number format: {mobile}")
+        return False
+
     try:
+        # Try OTP route first (requires DLT), fallback to quick route
         response = requests.post(
             'https://www.fast2sms.com/dev/bulkV2',
             headers={'authorization': api_key},
@@ -125,16 +137,34 @@ def send_otp_sms(mobile, otp):
                 'route': 'otp',
                 'variables_values': otp,
                 'flash': 0,
-                'numbers': mobile,
+                'numbers': clean_mobile,
             },
             timeout=10
         )
         result = response.json()
         if result.get('return'):
-            print(f"✅ SMS sent to {mobile}")
+            print(f"✅ SMS (OTP route) sent to {clean_mobile}")
+            return True
+
+        # OTP route failed - try quick route
+        print(f"OTP route failed: {result}. Trying quick route...")
+        response2 = requests.post(
+            'https://www.fast2sms.com/dev/bulkV2',
+            headers={'authorization': api_key},
+            data={
+                'route': 'q',
+                'message': f'Your Dolphin Naturals OTP is {otp}. Valid for 10 minutes. Do not share with anyone.',
+                'flash': 0,
+                'numbers': clean_mobile,
+            },
+            timeout=10
+        )
+        result2 = response2.json()
+        if result2.get('return'):
+            print(f"✅ SMS (quick route) sent to {clean_mobile}")
             return True
         else:
-            print(f"❌ SMS failed: {result}")
+            print(f"❌ SMS failed on both routes: {result2}")
             return False
     except Exception as e:
         print(f"❌ SMS error: {e}")

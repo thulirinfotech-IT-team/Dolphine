@@ -21,7 +21,7 @@ gunicorn==21.2.0
 whitenoise==6.6.0
 
 # Google OAuth
-google-auth==2.29.0
+google-auth>=2.15.0
 
 # Image/File handling
 Pillow==10.2.0

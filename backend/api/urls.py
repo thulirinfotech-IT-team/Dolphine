@@ -18,6 +18,7 @@ urlpatterns = [
     path('auth/register-with-otp', views_auth.register_with_otp, name='register-with-otp'),
     path('auth/forgot-password', views_auth.forgot_password, name='forgot-password'),
     path('auth/reset-password', views_auth.reset_password, name='reset-password'),
+    path('auth/google-login', views_auth.google_login, name='google-login'),
 
     # Product routes
     path('products/', views_products.list_products, name='list-products'),

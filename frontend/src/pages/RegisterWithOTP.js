@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import api from "../api";
 import { AuthContext } from "../AuthContext";
 import PremiumSuccessDialog from "../components/PremiumSuccessDialog";
@@ -25,6 +26,26 @@ export default function RegisterWithOTP() {
   const [successDialog, setSuccessDialog] = useState({ show: false, title: "", message: "" });
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setError("");
+    setLoading(true);
+    try {
+      const res = await api.post("/auth/google-login", {
+        credential: credentialResponse.credential,
+      });
+      login(res.data);
+      setSuccessDialog({
+        show: true,
+        title: res.data.created ? "Account Created!" : "Welcome Back!",
+        message: `You have successfully ${res.data.created ? "registered" : "logged in"} as ${res.data.user.name}`,
+      });
+    } catch (err) {
+      setError(err.response?.data?.detail || "Google sign-up failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -336,6 +357,21 @@ export default function RegisterWithOTP() {
                     "Send OTP"
                   )}
                 </button>
+
+                <div className="divider">
+                  <span>or sign up with</span>
+                </div>
+
+                <div className="social-login" style={{ justifyContent: "center" }}>
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={() => setError("Google sign-up failed. Please try again.")}
+                    theme="outline"
+                    shape="rectangular"
+                    text="signup_with"
+                    width="300"
+                  />
+                </div>
               </form>
             )}
 

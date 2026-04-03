@@ -289,6 +289,67 @@ def forgot_password(request):
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
+def google_login(request):
+    """Login or register via Google OAuth"""
+    credential = request.data.get('credential')
+    if not credential:
+        return Response({'detail': 'Google credential is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+    from google.oauth2 import id_token
+    from google.auth.transport import requests as google_requests
+    from django.conf import settings
+
+    client_id = settings.GOOGLE_CLIENT_ID
+    if not client_id:
+        return Response({'detail': 'Google login is not configured'}, status=status.HTTP_503_SERVICE_UNAVAILABLE)
+
+    try:
+        id_info = id_token.verify_oauth2_token(
+            credential,
+            google_requests.Request(),
+            client_id
+        )
+    except ValueError as e:
+        return Response({'detail': f'Invalid Google token: {str(e)}'}, status=status.HTTP_400_BAD_REQUEST)
+
+    email = id_info.get('email')
+    name = id_info.get('name', email.split('@')[0])
+
+    if not email:
+        return Response({'detail': 'Could not get email from Google account'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # Get or create user
+    user, created = User.objects.get_or_create(
+        email=email,
+        defaults={
+            'name': name,
+            'verified': True,
+            'role': 'user',
+        }
+    )
+
+    # If user exists but name is empty, update it
+    if not created and not user.name:
+        user.name = name
+        user.save(update_fields=['name'])
+
+    # Generate JWT token
+    refresh = RefreshToken.for_user(user)
+
+    return Response({
+        'access_token': str(refresh.access_token),
+        'user': {
+            'id': user.id,
+            'name': user.name,
+            'email': user.email,
+            'role': user.role
+        },
+        'created': created
+    })
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
 def reset_password(request):
     """Reset password using OTP"""
     email = request.data.get('email')

@@ -217,6 +217,9 @@ else:
 # Fast2SMS Configuration (for SMS OTP)
 FAST2SMS_API_KEY = os.getenv('FAST2SMS_API_KEY', '')
 
+# Google OAuth Configuration
+GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID', '')
+
 # Cloudinary Configuration (Image & Video Storage)
 import cloudinary
 import cloudinary.uploader

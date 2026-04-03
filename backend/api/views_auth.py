@@ -148,19 +148,30 @@ def send_otp(request):
         }
     )
 
+    # If email provided, also look up user's registered mobile number
+    if email and not mobile:
+        try:
+            user_obj = User.objects.get(email=email)
+            if user_obj.mobile:
+                mobile = user_obj.mobile
+        except User.DoesNotExist:
+            pass
+
     # Send OTP
     email_sent = False
+    sms_sent = False
     if email:
         email_sent = send_otp_email(email, otp_code, name)
 
     if mobile:
-        send_otp_sms(mobile, otp_code)
+        sms_sent = send_otp_sms(mobile, otp_code)
 
     return Response({
         'status': 'success',
-        'message': f"OTP sent to {'email' if email else 'mobile'}",
+        'message': 'OTP sent to email and mobile' if (email_sent and sms_sent) else ('OTP sent to email' if email_sent else 'OTP sent to mobile'),
         'identifier': identifier,
         'email_sent': email_sent,
+        'sms_sent': sms_sent,
     })
 
 

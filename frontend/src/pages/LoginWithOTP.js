@@ -14,6 +14,7 @@ export default function LoginWithOTP() {
   const [resendTimer, setResendTimer] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [devOtp, setDevOtp] = useState(""); // Development only: shows OTP in UI
+  const [otpSentTo, setOtpSentTo] = useState("");
   const [successDialog, setSuccessDialog] = useState({ show: false, title: "", message: "" });
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -81,6 +82,7 @@ export default function LoginWithOTP() {
           setDevOtp(otpRes.data.dev_otp);
         }
 
+        setOtpSentTo(otpRes.data.message || `OTP sent to ${form.email}`);
         setStep(2);
         startResendTimer();
         setError("");
@@ -221,7 +223,7 @@ export default function LoginWithOTP() {
               </h2>
               <p>
                 {step === 1 && "Enter your credentials to continue"}
-                {step === 2 && `OTP sent to ${form.email}`}
+                {step === 2 && otpSentTo}
               </p>
             </div>
 

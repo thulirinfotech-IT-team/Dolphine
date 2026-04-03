@@ -32,7 +32,7 @@ export const initiateRazorpayPayment = async ({
       currency: currency,
       name: "Dolphin Naturals",
       description: "Order Payment",
-      image: "/logo.png",
+      image: "/logo.svg",
       order_id: order_id,
       prefill: {
         name: user.name,

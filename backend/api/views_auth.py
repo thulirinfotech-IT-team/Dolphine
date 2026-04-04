@@ -266,11 +266,9 @@ def forgot_password(request):
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
-        # For security, don't reveal if email exists
         return Response({
-            'status': 'success',
-            'message': 'If the email is registered, you will receive a password reset OTP'
-        })
+            'detail': 'No account found with this email address.'
+        }, status=status.HTTP_404_NOT_FOUND)
 
     # Generate OTP
     otp_code = generate_otp()
@@ -292,9 +290,8 @@ def forgot_password(request):
 
     return Response({
         'status': 'success',
-        'message': 'If the email is registered, you will receive a password reset OTP',
+        'message': 'OTP sent to your email address.',
         'email': email,
-        'dev_otp': otp_code  # Development only
     })
 
 

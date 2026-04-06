@@ -12,6 +12,9 @@ export default function Layout({ children }) {
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [logoutDialog, setLogoutDialog] = useState({ show: false });
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
 
   const handleLogout = () => {
     const userName = user?.name || "User";
@@ -35,12 +38,8 @@ export default function Layout({ children }) {
     <div>
       <header className="nav">
         <div className="nav-inner">
-          <Link to="/" className="logo">
-            <img
-              src={logo}
-              alt="Dolphin Naturals Logo"
-              className="logo-img"
-            />
+          <Link to="/" className="logo" onClick={closeMobileMenu}>
+            <img src={logo} alt="Dolphin Naturals Logo" className="logo-img" />
           </Link>
 
           <form className="nav-search" onSubmit={handleSearch}>
@@ -52,22 +51,34 @@ export default function Layout({ children }) {
               className="nav-search-input"
             />
             <button type="submit" className="nav-search-btn" title="Search">
-              <svg
-                width="18"
-                height="18"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="11" cy="11" r="8" />
                 <path d="M21 21l-4.35-4.35" />
               </svg>
             </button>
           </form>
 
+          {/* Hamburger button — mobile only */}
+          <button
+            className="hamburger-btn"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            )}
+          </button>
+
+          {/* Desktop nav */}
           <nav className="nav-links">
             <Link to="/">Home</Link>
             <Link to="/products">Products</Link>
@@ -76,36 +87,13 @@ export default function Layout({ children }) {
             {user ? (
               <>
                 <Link to="/cart" className="cart-link" title="Cart" style={{ position: "relative" }}>
-                  <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <circle cx="9" cy="21" r="1" />
                     <circle cx="20" cy="21" r="1" />
                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
                   </svg>
                   {cartCount > 0 && (
-                    <span style={{
-                      position: "absolute",
-                      top: "-8px",
-                      right: "-8px",
-                      backgroundColor: "#1F3556",
-                      color: "white",
-                      borderRadius: "50%",
-                      width: "20px",
-                      height: "20px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: "11px",
-                      fontWeight: "600"
-                    }}>
+                    <span style={{ position: "absolute", top: "-8px", right: "-8px", backgroundColor: "#1F3556", color: "white", borderRadius: "50%", width: "20px", height: "20px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "11px", fontWeight: "600" }}>
                       {cartCount > 99 ? '99+' : cartCount}
                     </span>
                   )}
@@ -119,9 +107,7 @@ export default function Layout({ children }) {
                   </>
                 )}
                 <span className="user-name">{user.name}</span>
-                <button onClick={handleLogout} className="btn ghost btn-sm">
-                  Logout
-                </button>
+                <button onClick={handleLogout} className="btn ghost btn-sm">Logout</button>
               </>
             ) : (
               <>
@@ -131,8 +117,40 @@ export default function Layout({ children }) {
             )}
           </nav>
         </div>
+
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <nav className="mobile-menu">
+            <Link to="/" onClick={closeMobileMenu}>Home</Link>
+            <Link to="/products" onClick={closeMobileMenu}>Products</Link>
+            <Link to="/about" onClick={closeMobileMenu}>About</Link>
+            <Link to="/contact" onClick={closeMobileMenu}>Contact</Link>
+            {user ? (
+              <>
+                <Link to="/cart" onClick={closeMobileMenu}>
+                  Cart {cartCount > 0 && <span className="mobile-cart-badge">{cartCount}</span>}
+                </Link>
+                {user.role === "admin" && (
+                  <>
+                    <Link to="/admin/products" onClick={closeMobileMenu}>Admin Products</Link>
+                    <Link to="/admin/banner" onClick={closeMobileMenu}>Admin Banner</Link>
+                    <Link to="/admin/doctor-videos" onClick={closeMobileMenu}>Admin Videos</Link>
+                    <Link to="/admin/categories" onClick={closeMobileMenu}>Admin Categories</Link>
+                  </>
+                )}
+                <span className="mobile-user-name">{user.name}</span>
+                <button onClick={() => { handleLogout(); closeMobileMenu(); }} className="btn ghost btn-sm mobile-logout">Logout</button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" onClick={closeMobileMenu}>Login</Link>
+                <Link to="/register" onClick={closeMobileMenu}>Register</Link>
+              </>
+            )}
+          </nav>
+        )}
       </header>
-      <main style={{ paddingTop: "64px" }}>{children}</main>
+      <main style={{ paddingTop: "64px" }} onClick={closeMobileMenu}>{children}</main>
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-section">

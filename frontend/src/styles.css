@@ -1971,19 +1971,68 @@ h3 {
 /* Responsiveness */
 
 @media (max-width: 900px) {
-  .hero {
-    grid-template-columns: 1fr;
-    gap: 32px;
-    padding: 40px 0 50px;
+  .carousel-container {
+    min-height: unset;
+    padding: 20px 12px 40px;
+    border-radius: 16px;
+    margin-bottom: 30px;
   }
 
-  .hero-text h1 {
-    font-size: 2.5rem;
+  .carousel-wrapper {
+    min-height: unset;
+    position: relative;
+  }
+
+  .carousel-slide {
+    position: relative;
+    opacity: 0;
+    display: none;
+  }
+
+  .carousel-slide.active {
+    display: block;
+    opacity: 1;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 16px 0 30px;
   }
 
   .hero-image {
     order: -1;
   }
+
+  .hero-image img {
+    max-height: 260px;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  .hero-text h1 {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .hero-text p {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .hero-actions {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .carousel-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+  }
+
+  .carousel-btn.prev { left: 8px; }
+  .carousel-btn.next { right: 8px; }
 
   .product-detail .detail-main {
     grid-template-columns: 1fr;

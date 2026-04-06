@@ -49,7 +49,11 @@ export default function ForgotPassword() {
         setError("");
       }
     } catch (err) {
-      setError(err.response?.data?.detail || "Failed to send OTP. Please try again.");
+      if (!err.response) {
+        setError("Cannot connect to server. Please wait a moment and try again (server may be starting up).");
+      } else {
+        setError(err.response?.data?.detail || `Error ${err.response.status}: Failed to send OTP.`);
+      }
     } finally {
       setLoading(false);
     }

@@ -15,6 +15,20 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Retry failed requests once (handles Render free tier cold start)
+api.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    const config = error.config;
+    if (!error.response && !config._retry) {
+      config._retry = true;
+      await new Promise((resolve) => setTimeout(resolve, 4000));
+      return api(config);
+    }
+    return Promise.reject(error);
+  }
+);
+
 // Add response interceptor to handle 401 errors
 api.interceptors.response.use(
   (response) => response,

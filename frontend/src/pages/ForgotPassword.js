@@ -50,7 +50,7 @@ export default function ForgotPassword() {
       }
     } catch (err) {
       if (!err.response) {
-        setError("Cannot connect to server. Please wait a moment and try again (server may be starting up).");
+        setError("Server is starting up. Please click 'Send OTP' again in a few seconds.");
       } else {
         setError(err.response?.data?.detail || `Error ${err.response.status}: Failed to send OTP.`);
       }

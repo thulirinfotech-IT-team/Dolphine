@@ -102,7 +102,11 @@ export default function RegisterWithOTP() {
       startResendTimer();
       setError("");
     } catch (err) {
-      setError(err.response?.data?.detail || "Failed to send OTP. Please try again.");
+      if (!err.response) {
+        setError("Server is starting up. Please click 'Send OTP' again in 30 seconds.");
+      } else {
+        setError(err.response?.data?.detail || "Failed to send OTP. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

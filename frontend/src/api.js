@@ -15,15 +15,21 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Retry failed requests once (handles Render free tier cold start)
+// Retry failed requests (handles Render free tier cold start ~50s spin-up)
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
     const config = error.config;
-    if (!error.response && !config._retry) {
-      config._retry = true;
-      await new Promise((resolve) => setTimeout(resolve, 4000));
-      return api(config);
+    // No response = CORS/network error (backend sleeping)
+    if (!error.response) {
+      if (!config._retryCount) config._retryCount = 0;
+      if (config._retryCount < 3) {
+        config._retryCount += 1;
+        // Wait longer each retry: 15s, 20s, 25s
+        const delay = 10000 + config._retryCount * 5000;
+        await new Promise((resolve) => setTimeout(resolve, delay));
+        return api(config);
+      }
     }
     return Promise.reject(error);
   }

@@ -5,7 +5,7 @@ services:
     runtime: python
     plan: free
     buildCommand: "cd backend && chmod +x build.sh && ./build.sh"
-    startCommand: "cd backend && gunicorn dolphin.wsgi:application --timeout 120 --workers 1 --bind 0.0.0.0:$PORT"
+    startCommand: "cd backend && gunicorn dolphin.wsgi:application --timeout 180 --workers 1 --bind 0.0.0.0:$PORT --keep-alive 5"
     envVars:
       - key: PYTHON_VERSION
         value: "3.11.0"

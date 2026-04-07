@@ -21,7 +21,13 @@ User = get_user_model()
 @api_view(['GET', 'HEAD'])
 @permission_classes([AllowAny])
 def health_check(request):
-    """Health check endpoint for uptime monitoring"""
+    """Health check endpoint for uptime monitoring — also warms DB connection"""
+    try:
+        from django.db import connection
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+    except Exception:
+        pass
     return Response({'status': 'ok'})
 
 

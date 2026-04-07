@@ -94,18 +94,18 @@ Dolphin Naturals Team
     subject = subject_map.get(purpose, 'Your OTP - Dolphin Naturals')
     message = message_map.get(purpose, f'Your OTP is: {otp}')
 
-    try:
-        send_mail(
-            subject,
-            message,
-            settings.EMAIL_HOST_USER if hasattr(settings, 'EMAIL_HOST_USER') else 'noreply@dolphinnaturals.com',
-            [email],
-            fail_silently=False,
-        )
-        return True
-    except Exception as e:
-        print(f"Failed to send email: {e}")
-        return False
+    import time
+    from_email = settings.EMAIL_HOST_USER if hasattr(settings, 'EMAIL_HOST_USER') else 'noreply@dolphinnaturals.com'
+    for attempt in range(3):
+        try:
+            send_mail(subject, message, from_email, [email], fail_silently=False)
+            print(f"✅ Email sent to {email} (attempt {attempt + 1})")
+            return True
+        except Exception as e:
+            print(f"Email attempt {attempt + 1} failed: {e}")
+            if attempt < 2:
+                time.sleep(3)
+    return False
 
 
 def send_otp_sms(mobile, otp):

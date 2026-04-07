@@ -41,7 +41,7 @@ services:
       - key: NODE_VERSION
         value: "18.17.0"
       - key: REACT_APP_API_URL
-        value: "https://dolphin-backend.onrender.com"
+        value: "https://dolphin-backend-2e5f.onrender.com"
 
 databases:
   - name: dolphin-db

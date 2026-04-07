@@ -180,29 +180,10 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
 
-# CORS Settings
-CORS_ALLOW_ALL_ORIGINS = DEBUG  # Only for development
-
-_cors_origins = os.getenv('CORS_ALLOWED_ORIGINS', '')
-_cors_list = [o.strip() for o in _cors_origins.split(',') if o.strip()]
-
-# Always include these origins
-_default_origins = [
-    'http://localhost:3000',
-    'https://dolphine-4mna.onrender.com',
-]
-for _o in _default_origins:
-    if _o not in _cors_list:
-        _cors_list.append(_o)
-
-CORS_ALLOWED_ORIGINS = _cors_list if not DEBUG else []
-
-# Allow all onrender.com subdomains as regex fallback
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r'^https://.*\.onrender\.com$',
-]
-
+# CORS Settings - Allow all origins (public API, auth protected by JWT)
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',

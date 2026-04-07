@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, AuthContext } from "./AuthContext";
 import { CartProvider } from "./CartContext";
@@ -29,7 +29,16 @@ const AdminRoute = ({ children }) => {
   return user && user.role === "admin" ? children : <Navigate to="/" />;
 };
 
+const BACKEND_URL = process.env.REACT_APP_API_URL || "";
+
 export default function App() {
+  // Wake up backend on app load (simple GET = no CORS preflight)
+  useEffect(() => {
+    if (BACKEND_URL) {
+      fetch(`${BACKEND_URL}/api/health`).catch(() => {});
+    }
+  }, []);
+
   return (
     <AuthProvider>
       <CartProvider>

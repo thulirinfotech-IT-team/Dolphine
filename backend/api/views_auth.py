@@ -18,6 +18,13 @@ from .utils import generate_otp, get_otp_expiry, verify_otp as validate_otp_code
 User = get_user_model()
 
 
+@api_view(['GET', 'HEAD'])
+@permission_classes([AllowAny])
+def health_check(request):
+    """Health check endpoint for uptime monitoring"""
+    return Response({'status': 'ok'})
+
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login(request):

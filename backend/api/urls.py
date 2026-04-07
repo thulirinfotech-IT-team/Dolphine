@@ -95,6 +95,9 @@ urlpatterns = [
     path('payment/verify', views_payment.verify_payment, name='verify-payment'),
     path('payment/key', views_payment.get_razorpay_key, name='get-razorpay-key'),
 
+    # Health check (for UptimeRobot monitoring)
+    path('health', views_auth.health_check, name='health-check'),
+
     # Setup routes (DELETE AFTER USE!)
     path('setup/fresh-admin', views_setup.create_fresh_admin, name='setup-fresh-admin'),
     path('setup/list-users', views_setup.list_all_users, name='setup-list-users'),

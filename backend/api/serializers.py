@@ -40,8 +40,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 class OTPRequestSerializer(serializers.Serializer):
     """OTP request serializer"""
-    email = serializers.EmailField(required=False, allow_blank=True)
-    mobile = serializers.CharField(required=False, allow_blank=True)
+    email = serializers.EmailField(required=False, allow_blank=True, allow_null=True)
+    mobile = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     name = serializers.CharField(default='User')
 
     def validate(self, data):
@@ -52,8 +52,8 @@ class OTPRequestSerializer(serializers.Serializer):
 
 class OTPVerifySerializer(serializers.Serializer):
     """OTP verification serializer"""
-    email = serializers.EmailField(required=False, allow_blank=True)
-    mobile = serializers.CharField(required=False, allow_blank=True)
+    email = serializers.EmailField(required=False, allow_blank=True, allow_null=True)
+    mobile = serializers.CharField(required=False, allow_blank=True, allow_null=True)
     otp = serializers.CharField(max_length=6)
 
     def validate(self, data):

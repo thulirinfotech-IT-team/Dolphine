@@ -170,21 +170,22 @@ def send_otp(request):
         except User.DoesNotExist:
             pass
 
-    # Send OTP
-    email_sent = False
-    sms_sent = False
-    if email:
-        email_sent = send_otp_email(email, otp_code, name)
+    # Send OTP in background thread (prevents worker timeout)
+    import threading
 
-    if mobile:
-        sms_sent = send_otp_sms(mobile, otp_code)
+    def send_notifications():
+        if email:
+            send_otp_email(email, otp_code, name)
+        if mobile:
+            send_otp_sms(mobile, otp_code)
+
+    thread = threading.Thread(target=send_notifications, daemon=True)
+    thread.start()
 
     return Response({
         'status': 'success',
-        'message': 'OTP sent to email and mobile' if (email_sent and sms_sent) else ('OTP sent to email' if email_sent else 'OTP sent to mobile'),
+        'message': 'OTP sent',
         'identifier': identifier,
-        'email_sent': email_sent,
-        'sms_sent': sms_sent,
     })
 
 
@@ -298,8 +299,13 @@ def forgot_password(request):
         }
     )
 
-    # Send OTP email
-    send_otp_email(email, otp_code, user.name, purpose='password_reset')
+    # Send OTP email in background thread (prevents worker timeout)
+    import threading
+    threading.Thread(
+        target=send_otp_email,
+        args=(email, otp_code, user.name, 'password_reset'),
+        daemon=True
+    ).start()
 
     return Response({
         'status': 'success',
